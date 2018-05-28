@@ -1,0 +1,10 @@
+$ - kubectl get nodes
+$ - kubectl get pods
+$ - kubectl --namespace develop get pods
+$ - kubectl --namespace master get svc "services"
+$ - kubectl --namespace get logs ID_POD
+$ - kubectl --namespace exec -it ID_POD /bin/sh
+
+
+
+kubectl apply -f swagger.yml "deploy in kops"
