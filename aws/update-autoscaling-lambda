@@ -1,0 +1,11 @@
+#!/bin/bash
+### CRIAR AMI
+aws ec2 create-image --instance-id ID_INSTANCE --name "NOMEAMI_NOVO" --no-reboot --tag-specifications ResourceType=image,Tags="[{Key=Name,Value=NOMEAMI_NOVO}]"
+### SALVANDO O ID DA IMAGEM
+ID_IMAGEM=`aws ec2 describe-images --filters "Name=tag:Name,Values=NOMEAMI_NOVO" --query 'Images[*].[ImageId]' --output text`
+### CRIANDO UM NOVO TEMPLATE AMI
+#aws lambda invoke --function-name Automation-UpdateAsg --cli-binary-format raw-in-base64-out --payload '{"newAmiID": "ID_AMI","targetASG": "as-teste"}' response.json
+#### direto pelo arquivo.
+### aws lambda invoke --function-name Automation-UpdateAsg --cli-binary-format raw-in-base64-out --payload file://event.json response.json
+### passando a nova AMI com template com variavel
+aws lambda invoke --function-name Automation-UpdateAsg --cli-binary-format raw-in-base64-out --payload '{"newAmiID": "'"$ID_IMAGEM"'","targetASG": "as-teste"}' response.json
